@@ -24,34 +24,65 @@ class _StaggeredGridPageState extends State<StaggeredGridPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: StaggeredGridView.countBuilder(
-      crossAxisCount: 4,
-      itemCount: quote.length,
-      itemBuilder: (BuildContext context, int index) => new Container(
-          color: Colors.primaries[index % Colors.primaries.length],
-          child: new Center(
-            child: new Text(quote[index].text),
-          )),
-      staggeredTileBuilder: (int index) =>
-          new StaggeredTile.count(2, index.isEven ? 2 : 1),
-      mainAxisSpacing: 4.0,
-      crossAxisSpacing: 4.0,
+        body: H(
+      itemCount: 12,
+      aspectRatio: 0.65,
+      spacing: 10,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Card(
+            color: Colors.green,
+            child: ListTile(
+              title: Text('Item $index'),
+            ),
+          ),
+        );
+      },
     ));
   }
 }
 
-// class H extends StatelessWidget {
-// @required  final IndexedWidgetBuilder? itemBuilder;
-//  @required final int? itemCount;
-//   final double? spacing;
-//   final double? aspectRatio;
+class H extends StatelessWidget {
+  @required
+  final IndexedWidgetBuilder? itemBuilder;
+  @required
+  final int? itemCount;
+  final double? spacing;
+  final double? aspectRatio;
 
-//   const H({Key? key, this.itemBuilder, this.itemCount, this.spacing, this.aspectRatio}) : super(key: key);
-//   @override
-//   Widget build(BuildContext context) {
-//     return GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,childAspectRatio: aspectRatio!,
-//     crossAxisSpacing: spacing!,mainAxisSpacing: spacing!
-//     ), itemBuilder: (context,index)=>Transform.translate(offset: Offset(0.0, index.isOdd?100:0.0)
-//    child: itemBuilder:(context,index),));
-//   }
-// }
+  const H(
+      {Key? key,
+      this.itemBuilder,
+      this.itemCount,
+      this.spacing,
+      this.aspectRatio})
+      : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(builder: (context, constraints) {
+      final width = constraints.maxWidth;
+      final itemHeight = (width * 0.5) / aspectRatio!;
+
+      final height = constraints.maxHeight + itemHeight;
+
+      return OverflowBox(
+        maxHeight: height,
+        maxWidth: width,
+        minHeight: height,
+        minWidth: height,
+        child: GridView.builder(
+            itemCount: itemCount,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: aspectRatio!,
+                crossAxisSpacing: spacing!,
+                mainAxisSpacing: spacing!),
+            itemBuilder: (context, index) => Transform.translate(
+                  offset: Offset(0.0, index.isOdd ? itemHeight + 0.5 : 0.0),
+                  child: itemBuilder!(context, index),
+                )),
+      );
+    });
+  }
+}
