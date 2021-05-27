@@ -1,4 +1,5 @@
 # flutter_animated_cards
+An animated cards consisting of quote fetched from a remote server.
 
 A new Flutter project.
 
