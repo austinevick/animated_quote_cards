@@ -31,7 +31,6 @@ class _PageViewScreenState extends State<PageViewScreen> {
     quote.then((value) => setState(() => this.quotes = value));
   }
 
-  setRandom() => random.nextInt(quotes.length);
   @override
   void initState() {
     controller.addListener(_listener);
@@ -39,20 +38,6 @@ class _PageViewScreenState extends State<PageViewScreen> {
     super.initState();
     subscription =
         Connectivity().onConnectivityChanged.listen(checkConnectivity);
-  }
-
-  List<Color> colors = [
-    Color(0xff551A8B),
-    Color(0xff000080),
-    Color(0xff2c2b4b),
-    Color(0xff053738),
-    Color(0xff082c6c),
-    Color(0xff55342B),
-    Colors.black
-  ];
-  int index = 0;
-  void changeIndex() {
-    setState(() => index = random.nextInt(Colors.primaries.length));
   }
 
   buildSnackBar() {
@@ -107,9 +92,8 @@ class _PageViewScreenState extends State<PageViewScreen> {
               );
             }
             return RandomQuoteList(
-              itemCount: setRandom(),
+              itemCount: quotes.length,
               quotes: quotes,
-              colors: colors,
               value: value,
               controller: controller,
             );

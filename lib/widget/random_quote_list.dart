@@ -9,17 +9,11 @@ class RandomQuoteList extends StatelessWidget {
   final double? value;
   final int? itemCount;
   final PageController? controller;
-  final List<Color>? colors;
   final List<Quote>? quotes;
-
-  const RandomQuoteList(
-      {Key? key,
-      this.value,
-      this.itemCount,
-      this.controller,
-      this.colors,
-      this.quotes})
+  RandomQuoteList(
+      {Key? key, this.value, this.itemCount, this.controller, this.quotes})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -30,7 +24,7 @@ class RandomQuoteList extends StatelessWidget {
           image: DecorationImage(
               fit: BoxFit.cover,
               colorFilter: ColorFilter.mode(Colors.black87, BlendMode.darken),
-              image: AssetImage('images/img1.jpg'))),
+              image: AssetImage('images/img5.jpg'))),
       child: PageView.builder(
         controller: controller,
         itemCount: itemCount,
@@ -62,19 +56,45 @@ class RandomQuoteList extends StatelessWidget {
                         height: 300,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          color: colors![index],
+                          color: Color(0xff000080),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(quotes![index].text,
-                              style: GoogleFonts.abrilFatface(
-                                  fontSize: 28, color: Colors.white)),
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(quotes![index].text,
+                                      style: GoogleFonts.abrilFatface(
+                                          fontSize: 28, color: Colors.white)),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(Icons.share)),
+                                  IconButton(
+                                      onPressed: () {}, icon: Icon(Icons.copy)),
+                                  IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(Icons.favorite)),
+                                ],
+                              ),
+                            )
+                          ],
                         ),
                       ),
                     ),
                   ),
                 ),
+                Text('$index'),
                 SizedBox(height: 20),
                 AnimatedOpacity(
                     opacity: 1 - rotation,
