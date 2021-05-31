@@ -75,16 +75,25 @@ class _PageViewScreenState extends State<PageViewScreen> {
   }
 
   Widget buildBody() => result == ConnectivityResult.none
-      ? Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(height: 30, child: Text('No internet connection')),
-              Center(
-                child: TextButton(
-                    onPressed: () => getQuotes(), child: Text('Retry')),
-              ),
-            ],
+      ? Entry.scale(
+          delay: Duration(milliseconds: 800),
+          duration: Duration(seconds: 1),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                    height: 30,
+                    child: Text(
+                      'No internet connection',
+                      style: TextStyle(fontSize: 18),
+                    )),
+                Center(
+                  child: TextButton(
+                      onPressed: () => getQuotes(), child: Text('Retry')),
+                ),
+              ],
+            ),
           ),
         )
       : ValueListenableBuilder<double>(
