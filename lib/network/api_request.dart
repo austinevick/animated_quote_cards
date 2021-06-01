@@ -42,17 +42,27 @@ class ApiRequest {
 }
 
 class Quote {
+  int? id;
   final String text;
   final String author;
   Quote({
+    this.id,
     required this.text,
     required this.author,
   });
 
   factory Quote.fromMap(Map<String, dynamic> map) {
     return Quote(
-      text: map['q'] ?? '',
-      author: map['a'] ?? '',
+      text: map['q'],
+      author: map['a'],
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'a': text,
+      'q': author,
+    };
   }
 }

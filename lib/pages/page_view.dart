@@ -4,11 +4,9 @@ import 'dart:math';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:entry/entry.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animated_cards/card.dart';
 import 'package:flutter_animated_cards/network/api_request.dart';
 import 'package:flutter_animated_cards/widget/bottom_navbar.dart';
 import 'package:flutter_animated_cards/widget/random_quote_list.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class PageViewScreen extends StatefulWidget {
   @override
