@@ -17,7 +17,7 @@ class LandingScreen extends StatefulWidget {
 class _LandingScreenState extends State<LandingScreen> {
   List<Quote> quotes = [];
   late StreamSubscription subscription;
-
+  late final snackBar;
   getQuotes() {
     Future<List<Quote>> quote = ApiRequest.fetchDailyQuotes();
     quote.then((value) => setState(() => this.quotes = value));
@@ -31,22 +31,39 @@ class _LandingScreenState extends State<LandingScreen> {
     super.initState();
   }
 
+  // void checkConnectivity(ConnectivityResult result) {
+  //   final hasNetworkConnection = result != ConnectivityResult.none;
+  //   !hasNetworkConnection ? buildSnackBar() : Container();
+  // }
+  ConnectivityResult? result;
   void checkConnectivity(ConnectivityResult result) {
-    final hasNetworkConnection = result != ConnectivityResult.none;
-    !hasNetworkConnection
-        ? showDialog(context: context, builder: (c) => buildDialog())
-        : Container();
+    setState(() => this.result = result);
+
+    if (result == ConnectivityResult.none) {
+      buildSnackBar();
+    }
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.transparent,
+        content: Container(
+          height: 50,
+        )));
   }
 
-  Widget buildDialog() => AlertDialog(
-        title: Text('Internet Connection'),
-        content: Text('Please check your internet connection'),
-        actions: [
-          TextButton(
-              onPressed: () => Navigator.of(context).pop(), child: Text('Ok')),
-          TextButton(onPressed: () => getQuotes(), child: Text('Retry')),
-        ],
-      );
+  buildSnackBar() {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.black,
+        duration: Duration(days: 365),
+        behavior: SnackBarBehavior.floating,
+        action: SnackBarAction(
+            textColor: Colors.white,
+            label: 'Dismiss',
+            onPressed: () => SnackBarClosedReason.action),
+        content: Container(
+          height: 50,
+          child: Text('No internet connection',
+              style: TextStyle(color: Colors.white, fontSize: 16)),
+        )));
+  }
 
   @override
   void dispose() {
@@ -84,7 +101,7 @@ class _LandingScreenState extends State<LandingScreen> {
                                 alignment: Alignment.topLeft,
                                 child: Image.asset(
                                   'images/quote.png',
-                                  height: 48,
+                                  height: 40,
                                   color: Colors.white,
                                 ),
                               ),

@@ -2,10 +2,16 @@ import 'dart:math';
 
 import 'package:entry/entry.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_animated_cards/network/api_request.dart';
+import 'package:flutter_animated_cards/provider/provider.dart';
+import 'package:flutter_animated_cards/widget/iconbutton.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:share_plus/share_plus.dart';
 
-class RandomQuoteList extends StatelessWidget {
+class RandomQuoteList extends ConsumerWidget {
   final double? value;
   final int? itemCount;
   final PageController? controller;
@@ -15,9 +21,9 @@ class RandomQuoteList extends StatelessWidget {
       : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
     final size = MediaQuery.of(context).size;
-
+    final reader = watch(provider);
     return Container(
       height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
@@ -70,14 +76,15 @@ class RandomQuoteList extends StatelessWidget {
                                   alignment: Alignment.topLeft,
                                   child: Image.asset(
                                     'images/img2.png',
-                                    height: 30,
+                                    height: 24,
                                     color: Colors.white,
                                   ),
                                 ),
                               ),
                               Center(
                                 child: Padding(
-                                  padding: const EdgeInsets.only(left: 50),
+                                  padding: const EdgeInsets.only(
+                                      left: 50, right: 50),
                                   child: Text(quotes![index].text,
                                       style: GoogleFonts.abrilFatface(
                                           fontSize: 28, color: Colors.white)),
@@ -89,7 +96,7 @@ class RandomQuoteList extends StatelessWidget {
                                   alignment: Alignment.topRight,
                                   child: Image.asset(
                                     'images/img1.png',
-                                    height: 30,
+                                    height: 24,
                                     color: Colors.white,
                                   ),
                                 ),
@@ -103,15 +110,31 @@ class RandomQuoteList extends StatelessWidget {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: [
-                                    IconButton(
-                                        onPressed: () {},
-                                        icon: Icon(Icons.share)),
-                                    IconButton(
-                                        onPressed: () {},
-                                        icon: Icon(Icons.copy)),
-                                    IconButton(
-                                        onPressed: () {},
-                                        icon: Icon(Icons.favorite)),
+                                    IconButtonWidget(
+                                        onPressed: () async {
+                                          await Share.share(
+                                              '${quotes![index].text}\n${quotes![index].author}');
+                                        },
+                                        icon: Icons.share),
+                                    IconButtonWidget(
+                                        onPressed: () async {
+                                          ClipboardData data = ClipboardData(
+                                              text: '${quotes![index].text}');
+                                          await Clipboard.setData(data)
+                                              .whenComplete(() =>
+                                                  Fluttertoast.showToast(
+                                                      msg:
+                                                          'Copied to clipboard'));
+                                        },
+                                        icon: Icons.copy),
+                                    IconButtonWidget(
+                                        onPressed: () {
+                                          final quote = Quote(
+                                              isFavourite: true,
+                                              text: quotes![index].text,
+                                              author: quotes![index].author);
+                                        },
+                                        icon: Icons.favorite)
                                   ],
                                 ),
                               )
@@ -126,9 +149,12 @@ class RandomQuoteList extends StatelessWidget {
                 AnimatedOpacity(
                     opacity: 1 - rotation,
                     duration: Duration(seconds: 1),
-                    child: Text(quotes![index].author,
-                        style: GoogleFonts.pattaya(
-                            fontSize: 18, color: Colors.white))),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(quotes![index].author,
+                          style: GoogleFonts.pattaya(
+                              fontSize: 18, color: Colors.white)),
+                    )),
               ],
             ),
           );

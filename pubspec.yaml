@@ -23,6 +23,7 @@ dependencies:
   entry: ^0.0.4
   share_plus: ^2.1.2
   clipboard: ^0.1.3
+  fluttertoast: ^8.0.7
 
 dev_dependencies:
   flutter_test:

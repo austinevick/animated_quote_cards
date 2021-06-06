@@ -45,17 +45,17 @@ class Quote {
   int? id;
   final String text;
   final String author;
+  bool isFavourite;
   Quote({
     this.id,
+    required this.isFavourite,
     required this.text,
     required this.author,
   });
 
   factory Quote.fromMap(Map<String, dynamic> map) {
     return Quote(
-      text: map['q'],
-      author: map['a'],
-    );
+        text: map['q'], author: map['a'], isFavourite: map['isFavourite'] == 0);
   }
 
   Map<String, dynamic> toMap() {
@@ -63,6 +63,7 @@ class Quote {
       'id': id,
       'a': text,
       'q': author,
+      'isFavourite': this.isFavourite ? 0 : 1
     };
   }
 }

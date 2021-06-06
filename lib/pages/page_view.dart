@@ -38,20 +38,6 @@ class _PageViewScreenState extends State<PageViewScreen> {
         Connectivity().onConnectivityChanged.listen(checkConnectivity);
   }
 
-  buildSnackBar() {
-    return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        duration: Duration(seconds: 2),
-        backgroundColor: Colors.red,
-        behavior: SnackBarBehavior.floating,
-        content: Container(
-            alignment: Alignment.center,
-            height: 50,
-            child: Text(
-              'You have no internet connection',
-              style: TextStyle(color: Colors.white, fontSize: 15),
-            ))));
-  }
-
   ConnectivityResult? result;
   void checkConnectivity(ConnectivityResult result) {
     setState(() => this.result = result);

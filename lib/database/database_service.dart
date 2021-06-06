@@ -7,8 +7,8 @@ import 'package:sqflite/sqflite.dart';
 class DatabaseHelper {
   static Database? _db;
   static const String ID = 'id';
-  static const String TEXT = 'text';
-  static const String AUTHOR = 'author';
+  static const String TEXT = 'q';
+  static const String AUTHOR = 'a';
   static const String ISFAVOURITE = 'isFavourite';
   static const String TABLE = 'quote';
   static const String DB_NAME = 'quote.db';
@@ -32,44 +32,41 @@ class DatabaseHelper {
         'CREATE TABLE $TABLE ($ID INTEGER PRIMARY KEY AUTOINCREMENT, $TEXT TEXT,  $AUTHOR TEXT, $ISFAVOURITE BOOLEAN)');
   }
 
-  // Future<Quote> saveNote(Quote quote) async {
-  //   var dbClient = await db;
-  //   note.id = await dbClient!.insert(TABLE, quote.toMap());
-  //   return note;
-  // }
+  Future<Quote> saveQuote(Quote quote) async {
+    var dbClient = await db;
+    quote.id = await dbClient!.insert(TABLE, quote.toMap());
+    return quote;
+  }
 
-  // Future<List<Note>> getNotes() async {
-  //   var dbClient = await db;
-  //   List<Map> map = await dbClient.query(
-  //     TABLE,
-  //     orderBy: ISIMPORTANT,
-  //     columns: [ID, TITLE, CONTENT, DATE, ISIMPORTANT],
-  //   );
-  //   List<Note> noteList = [];
-  //   if (map != null) {
-  //     for (var i = 0; i < map.length; i++) {
-  //       noteList.add(Note.fromMap(map[i]));
-  //     }
-  //   }
-  //   return noteList;
-  // }
+  Future<List<Quote>> getQuotes() async {
+    var dbClient = await db;
+    List<Map<String, Object?>> map = await dbClient!.query(
+      TABLE,
+      columns: [ID, TEXT, AUTHOR, ISFAVOURITE],
+    );
+    List<Quote> quoteList = [];
+    for (var i = 0; i < map.length; i++) {
+      quoteList.add(Quote.fromMap(map[i]));
+    }
+    return quoteList;
+  }
 
-  // Future<int> deleteNote(int id) async {
-  //   var dbClient = await db;
-  //   return dbClient.delete(
-  //     TABLE,
-  //     where: '$ID = ?',
-  //     whereArgs: [id],
-  //   );
-  // }
+  Future<int> deleteQuote(int id) async {
+    var dbClient = await db;
+    return dbClient!.delete(
+      TABLE,
+      where: '$ID = ?',
+      whereArgs: [id],
+    );
+  }
 
-  // Future<int> updateNote(Note note) async {
-  //   var dbClient = await db;
-  //   return dbClient.update(
-  //     TABLE,
-  //     note.toMap(),
-  //     where: '$ID = ?',
-  //     whereArgs: [note.id],
-  //   );
-  // }
+  Future<int> updateQuote(Quote quote) async {
+    var dbClient = await db;
+    return dbClient!.update(
+      TABLE,
+      quote.toMap(),
+      where: '$ID = ?',
+      whereArgs: [quote.id],
+    );
+  }
 }
