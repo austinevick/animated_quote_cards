@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animated_cards/pages/landing_screen.dart';
+import 'package:flutter_animated_cards/pages/daily_quote_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'pages/landing_screen.dart';
 
 void main() {
   runApp(MyApp());

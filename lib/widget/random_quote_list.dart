@@ -63,13 +63,12 @@ class RandomQuoteList extends ConsumerWidget {
                           width: 310,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                            color: Color(0xff000080),
+                            // color: Color(0xff000080),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Spacer(),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Align(
@@ -81,13 +80,15 @@ class RandomQuoteList extends ConsumerWidget {
                                   ),
                                 ),
                               ),
-                              Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 50, right: 50),
-                                  child: Text(quotes![index].text,
-                                      style: GoogleFonts.abrilFatface(
-                                          fontSize: 28, color: Colors.white)),
+                              Expanded(
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 50, right: 50),
+                                    child: Text(quotes![index].text,
+                                        style: GoogleFonts.abrilFatface(
+                                            fontSize: 28, color: Colors.white)),
+                                  ),
                                 ),
                               ),
                               Padding(
@@ -100,9 +101,6 @@ class RandomQuoteList extends ConsumerWidget {
                                     color: Colors.white,
                                   ),
                                 ),
-                              ),
-                              Spacer(
-                                flex: 2,
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -127,14 +125,14 @@ class RandomQuoteList extends ConsumerWidget {
                                                           'Copied to clipboard'));
                                         },
                                         icon: Icons.copy),
-                                    IconButtonWidget(
-                                        onPressed: () {
-                                          final quote = Quote(
-                                              isFavourite: true,
-                                              text: quotes![index].text,
-                                              author: quotes![index].author);
-                                        },
-                                        icon: Icons.favorite)
+                                    // IconButtonWidget(
+                                    //     onPressed: () {
+                                    //       final quote = Quote(
+                                    //           isFavourite: true,
+                                    //           text: quotes![index].text,
+                                    //           author: quotes![index].author);
+                                    //     },
+                                    //     icon: Icons.favorite)
                                   ],
                                 ),
                               )

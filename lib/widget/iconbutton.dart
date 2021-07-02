@@ -9,8 +9,6 @@ class IconButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: IconButton(onPressed: onPressed, icon: Icon(icon, size: 26)),
-    );
+    return IconButton(onPressed: onPressed, icon: Icon(icon, size: 26));
   }
 }
